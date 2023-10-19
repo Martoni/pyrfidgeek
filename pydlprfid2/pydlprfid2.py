@@ -500,7 +500,7 @@ class PyDlpRfid2(object):
 
         result = sof + length + result
         self.write(result.upper())
-        response = self.read_fast()
+        response = self.read()
         if get_full_response:
             return response
         else:
