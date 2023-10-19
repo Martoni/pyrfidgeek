@@ -500,7 +500,7 @@ class PyDlpRfid2(object):
 
         result = sof + length + result
         self.write(result.upper())
-        response = self.read()
+        response = self.read_fast()
         if get_full_response:
             return response
         else:
@@ -521,6 +521,15 @@ class PyDlpRfid2(object):
                           msg[12:-4] +
                           colored(msg[-4:], 'green'))
         self.sp.write(msg.encode('ascii'))
+
+    def read_fast(self):
+        msg = b''
+        while True:
+            car = self.sp.read(1)
+            msg += car
+            if car == b']' or not car:
+                break;
+        return msg
 
     def read(self):
         msg = self.sp.readall()
